@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import Input from './Input'
 
-interface CardData {
-  cardNumber: string
-  cardHolder: string
-  expiryDate: string
-  cvv: string
-}
+type CardInputs = 'cardNumber' | 'cardHolder' | 'expiryDate' | 'cvv'
+type CardData = Record<CardInputs, string>
 
 const CreditCard: React.FC = () => {
   const [cardData, setCardData] = useState<CardData>({
@@ -24,9 +20,7 @@ const CreditCard: React.FC = () => {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-  }
+  const handleSubmit = (e: React.FormEvent) => e.preventDefault()
 
   return (
     <div data-testid="credit-card" className="w-2/6">
