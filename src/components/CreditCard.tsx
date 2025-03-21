@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-
-interface CreditCardProps {
-  onSubmit?: (cardData: CardData) => void
-}
+import Input from './Input'
 
 interface CardData {
   cardNumber: string
@@ -11,7 +8,7 @@ interface CardData {
   cvv: string
 }
 
-const CreditCard: React.FC<CreditCardProps> = ({ onSubmit }) => {
+const CreditCard: React.FC = () => {
   const [cardData, setCardData] = useState<CardData>({
     cardNumber: '',
     cardHolder: '',
@@ -23,78 +20,74 @@ const CreditCard: React.FC<CreditCardProps> = ({ onSubmit }) => {
     const { name, value } = e.target
     setCardData((prev) => ({
       ...prev,
-      [name]: value
+      [name as string]: value
     }))
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (onSubmit) {
-      onSubmit(cardData)
-    }
   }
 
   return (
-    <div data-testid="credit-card">
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="cardNumber">Card Number</label>
-          <input
-            type="text"
-            id="cardNumber"
-            name="cardNumber"
-            value={cardData.cardNumber}
-            onChange={handleInputChange}
-            placeholder="1234 5678 9012 3456"
-            maxLength={19}
-            required
-          />
-        </div>
+    <div data-testid="credit-card" className="w-2/6">
+      {/* FORM */}
+      <form
+        onSubmit={handleSubmit}
+        className="rounded-md bg-white p-5 shadow-md"
+      >
+        <Input
+          type="text"
+          name="cardNumber"
+          label="Card Number"
+          errorMsg="Invalid card number"
+          placeholder="1234 5678 9123 4567"
+          value={cardData.cardNumber}
+          onChange={handleInputChange}
+          maxLength={19}
+          required
+        />
 
-        <div>
-          <label htmlFor="cardHolder">Card Holder</label>
-          <input
-            type="text"
-            id="cardHolder"
-            name="cardHolder"
-            value={cardData.cardHolder}
-            onChange={handleInputChange}
-            placeholder="JOHN DOE"
-            required
-          />
-        </div>
+        <Input
+          type="text"
+          name="cardHolder"
+          label="Holder Name"
+          errorMsg="Invalid name"
+          placeholder="John Doe"
+          value={cardData.cardHolder}
+          onChange={handleInputChange}
+          required
+        />
 
-        <div>
-          <div>
-            <label htmlFor="expiryDate">Expiry Date</label>
-            <input
-              type="text"
-              id="expiryDate"
-              name="expiryDate"
-              value={cardData.expiryDate}
-              onChange={handleInputChange}
-              placeholder="MM/YY"
-              maxLength={5}
-              required
-            />
-          </div>
+        <Input
+          type="number"
+          name="expiryDate"
+          label="Holder Name"
+          errorMsg="Invalid date"
+          placeholder="MM/YYYY"
+          maxLength={7}
+          value={cardData.expiryDate}
+          onChange={handleInputChange}
+          required
+        />
 
-          <div>
-            <label htmlFor="cvv">CVV</label>
-            <input
-              type="text"
-              id="cvv"
-              name="cvv"
-              value={cardData.cvv}
-              onChange={handleInputChange}
-              placeholder="123"
-              maxLength={3}
-              required
-            />
-          </div>
-        </div>
+        <Input
+          type="number"
+          name="cvv"
+          label="Holder Name"
+          errorMsg="Invalid CVV"
+          placeholder="123"
+          maxLength={3}
+          value={cardData.cvv}
+          onChange={handleInputChange}
+          required
+        />
 
-        <button type="submit">Submit Payment</button>
+        <button
+          type="submit"
+          className="rounded-md bg-blue-600 px-5 py-2 font-bold text-white hover:bg-blue-800"
+        >
+          Submit
+        </button>
       </form>
     </div>
   )
